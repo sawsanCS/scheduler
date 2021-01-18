@@ -6,12 +6,12 @@ import { action } from "@storybook/addon-actions";
 import "index.scss";
 
 import Button from "components/Button";
-
+const baseStyle ={color: "red"};
 storiesOf("Button", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
-  .add("Base", () => <Button>Base</Button>)
+  .add("Base", () => <Button style = {baseStyle}>Base</Button>)
   .add("Confirm", () => <Button confirm>Confirm</Button>)
   .add("Danger", () => <Button danger>Cancel</Button>)
   .add("Clickable", () => (

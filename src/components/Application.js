@@ -1,6 +1,8 @@
 import React from "react";
 
 import "components/Application.scss";
+import "components/";
+
 
 export default function Application(props) {
   return (
