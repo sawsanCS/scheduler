@@ -1,26 +1,27 @@
-import React from "react";
-
+import React, { useState } from "react";
 import "components/Application.scss";
 import DayList from 'components/DayList';
 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+
 export default function Application(props) {
+  const days = [
+    {
+      id: 1,
+      name: "Monday",
+      spots: 2,
+    },
+    {
+      id: 2,
+      name: "Tuesday",
+      spots: 5,
+    },
+    {
+      id: 3,
+      name: "Wednesday",
+      spots: 0,
+    },
+  ];
+  const [day, setDay] = useState('Monday');
   return (
     <main className="layout">
       <section className="sidebar">
@@ -33,8 +34,8 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={days}
-            day={"Monday"}
-            setDay={day => console.log(day)}
+            day={day}
+            setDay={setDay}
           />
 
         </nav>
