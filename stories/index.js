@@ -9,6 +9,9 @@ import InterviewerListItem from "components/InterviewerListItem"
 import InterviewerList from 'components/InterviewerList'
 import DayList from 'components/DayList'
 import Appointment from 'components/Appointment/index'
+import Header from 'components/Appointment/Header'
+import Empty from 'components/Appointment/Empty'
+
 
 import Button from "components/Button";
 const baseStyle ={color: "red"};
@@ -133,5 +136,17 @@ storiesOf("Button", module)
           backgrounds: [{ name: "white", value: "#fff", default: true }]
         })
         .add("Appointment", () => <Appointment />)
-        .add("Appointment with Time", () => <Appointment time="12pm" />);
+        .add("Appointment with Time", () => <Appointment time="12pm" />)
+        storiesOf("Header", module)
+        .addParameters({
+          backgrounds: [{ name: "white", value: "#fff", default: true }]
+        })
+
         .add("Header", () => <Header time="12pm" />)
+
+        storiesOf("Empty", module)
+        .addParameters({
+          backgrounds: [{ name: "white", value: "#fff", default: true }]
+        })
+
+        .add("Empty", () => <Empty onAdd={action("onAdd")} />)
