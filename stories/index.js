@@ -8,7 +8,7 @@ import DayListItem from "components/DayListItem"
 import InterviewerListItem from "components/InterviewerListItem"
 import InterviewerList from 'components/InterviewerList'
 import DayList from 'components/DayList'
-import Appointment from 'components/Appointment'
+import Appointment from 'components/Appointment/index'
 
 import Button from "components/Button";
 const baseStyle ={color: "red"};
@@ -134,3 +134,4 @@ storiesOf("Button", module)
         })
         .add("Appointment", () => <Appointment />)
         .add("Appointment with Time", () => <Appointment time="12pm" />);
+        .add("Header", () => <Header time="12pm" />)
