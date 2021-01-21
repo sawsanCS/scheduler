@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from 'components/DayList';
+import axios from 'axios';
 import InterviewerList from "components/InterviewerList";
 import Appointment from 'components/Appointment';
 
-const days = [
+/*const days = [
   {
     id: 1,
     name: "Monday",
@@ -20,7 +21,7 @@ const days = [
     name: "Wednesday",
     spots: 0,
   },
-];
+];*/
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
@@ -60,20 +61,28 @@ const appointments = [
   {
     id: 4,
     time: "2pm",
-  }
+  },
 ];
 
 export default function Application(props) {
-  
-  
+ 
   const [day, setDay] = useState('Monday');
+  const [days, setDays] = useState([])
   const scheduleList = appointments.map(appointment => (
     <Appointment 
     key={appointment.id} 
     {...appointment} 
     />
   ))
-
+  useEffect(() => {
+    const url =`/api/days`;
+    axios.get(url)
+    .then(res => {
+      console.log(res.data)
+     setDays([...res.data]);
+    })
+  }, []);
+  
   return (
     <main className="layout">
       <section className="sidebar">
@@ -99,7 +108,6 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        <InterviewerList interviewers={interviewers} />
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
         {scheduleList}
       </section>
