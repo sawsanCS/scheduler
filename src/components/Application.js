@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from 'components/DayList';
 import axios from 'axios';
+import { getAppointmentsForDay } from 'helpers/selectors';
+
 import InterviewerList from "components/InterviewerList";
 import Appointment from 'components/Appointment';
 
@@ -66,8 +68,14 @@ const appointments = [
 
 export default function Application(props) {
  
-  const [day, setDay] = useState('Monday');
-  const [days, setDays] = useState([])
+
+  const [state, setState] = useState({
+    day: 'Monday',
+    days: [],
+    appointments: {}
+  })
+  const setDay = day => setState(prev => ({ ...prev, day }));
+  const setDays = days => setState(prev => ({ ...prev, days }))
   const scheduleList = appointments.map(appointment => (
     <Appointment 
     key={appointment.id} 
@@ -79,7 +87,7 @@ export default function Application(props) {
     axios.get(url)
     .then(res => {
       console.log(res.data)
-     setDays([...res.data]);
+     setDays([res.data]);
     })
   }, []);
   
@@ -94,8 +102,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
           />
         </nav>
