@@ -13,6 +13,7 @@ import useVisualMode from "hooks/useVisualMode";
 
 import "./styles.scss";
 export default function Appointment(props) {
+  console.log(props)
   const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE ="CREATE"
@@ -20,6 +21,8 @@ const EDIT ="EDIT"
 const CONFIRM ="CONFIRM"
 const SAVING ="SAVING"
 const DELETING ="DELETING"
+const ERROR_SAVE = 'ERROR_SAVE'
+  const ERROR_DELETE = 'ERROR_DELETE'
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
@@ -32,20 +35,22 @@ const DELETING ="DELETING"
       interviewer
     };
     transition(SAVING)
+    console.log('try me')
     //Make the request with the correct endpoint using the appointment id
     axios
-      .put(`/api/appointments/${props.id}`, {
-        interview
-      })
+      .put(`/api/appointments/${props.id}`, {interview})
       .then(response => {
         //When the response comes back we update the state using the existing setState.
+        console.log('before booking')
         props.bookInterview(props.id, interview)
         //Transition to SHOW when the promise returned by props.bookInterview resolves
+        console.log('After booking')
+
         transition(SHOW)
-        console.log(mode)
+        console.log('something happened')
       })
       .catch(error => {
-        console.log('error')
+        transition(ERROR_SAVE, true)
       })
   }
   function cancelAppointment (){
@@ -60,15 +65,11 @@ const DELETING ="DELETING"
         console.log(mode)
       })
       .catch(error => {
-        console.log('error')
+        transition(ERROR_DELETE, true)
       })
   }
-    function onCancel() {
+    
 
-  }
-  function confirm() {
-
-  }
   useEffect(() => {
     if (props.interview && mode === EMPTY) {
       transition(SHOW)
@@ -79,23 +80,15 @@ const DELETING ="DELETING"
     
   }, [transition, mode, props.interview])
   return (
-    <article className="appointment" >
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SAVING && <Status  message ="Saving"/>}
-      {mode === CONFIRM && (
-        <Confirm
-          message="Delete the appointment"
-          onConfirm={cancelAppointment}
-          onCancel={onCancel}
-        />
-      )}
       {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onEdit={() => transition(EDIT)}
-          onDelete={() => cancelAppointment}
+          onDelete={() => transition(CONFIRM)}
         />
       )}
       {mode === CREATE && (
@@ -111,10 +104,21 @@ const DELETING ="DELETING"
           interviewers={props.interviewers}
           interviewer={props.interview.interviewer.id}
           onSave={save}
-          onCancel={() => {back()}}
+          onCancel={onCancel}
         />
       )}
-     
+      {mode === CONFIRM && (
+        <Confirm
+          message="Delete the appointment"
+          onConfirm={cancelAppointment}
+          onCancel={onCancel}
+        />
+      )}
+      {mode === SAVING && <Status message="Saving" />}
+      {mode === DELETING && <Status message="Deleting" />}
+  
+   
     </article>
   )
 }
+
