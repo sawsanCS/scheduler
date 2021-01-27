@@ -12,8 +12,7 @@ import useVisualMode from "hooks/useVisualMode";
 
 import "./styles.scss";
 export default function Appointment(props) {
-  console.log('I need to know these props', props)
-  console.log(props)
+
   const EMPTY = "EMPTY"
   const SHOW = "SHOW"
   const CREATE = "CREATE"
@@ -29,7 +28,9 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
   function onCancel() {
+    
     back();
+
   }
   useEffect(() => {
     if (props.interview && mode === EMPTY) {
@@ -44,16 +45,15 @@ export default function Appointment(props) {
   //after creating a new appointment, save function will save it
   function save(name, interviewer) {
     const interview = {
-      student: props.name,
+      student: name,
       interviewer
     };
+  
     transition(SAVING)
-    console.log('try me')
     //Make the request with the correct endpoint using the appointment id
     props.bookInterview(props.id, interview)
       .then(response => {
         transition(SHOW)
-        console.log('something happened')
       })
       .catch(error => {
         transition(ERROR_SAVE, true)
@@ -62,11 +62,11 @@ export default function Appointment(props) {
 
 
   function cancelAppointment() {
-    transition(DELETING);
-    props.cancelInterview(props.id)
+   transition(DELETING);
+
+ props.cancelInterview(props.id)
       .then(response => {
         transition(EMPTY)
-        console.log(mode)
       })
       .catch(error => {
         transition(ERROR_DELETE, true)
@@ -74,10 +74,10 @@ export default function Appointment(props) {
   }
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW && props.interview && 
+      {mode === SHOW  && 
         <Show
         id = {props.id}
           student={props.interview.student}
@@ -88,7 +88,6 @@ export default function Appointment(props) {
       }
       {mode === CREATE && (
         <Form
-          id = {props.id}
           interviewers={props.interviewers}
           onSave={save}
           onCancel={onCancel}
