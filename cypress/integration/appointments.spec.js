@@ -33,6 +33,14 @@ describe("Appointments", () => {
     cy.contains('.appointment__card', 'Lydia Miller-Jones')
     cy.contains('.appointment__card', 'Tori Malcolm')
   })
+  it('should cancel an interview', () => {
+    cy.get('[alt=Delete]').click({ force: true })
+    cy.contains('confirm').click()
 
+    cy.contains('Deleting').should('exist')
+ 
+
+    cy.contains('.appointment__card', 'Archie Cohen').should('not.exist')
+  })
  });
  
