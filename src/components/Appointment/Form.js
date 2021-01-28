@@ -18,7 +18,8 @@ export default function Form(props) {
       else {
         setErrorMessage(null)
       }
-      
+     
+
       props.onSave(name, interviewer)
     
     }
@@ -46,7 +47,7 @@ return (<main className="appointment__card appointment__card--create">
         onChange={(event) => setName(event.target.value)}
       />
     </form>
-    <section className="appointment__validation">{errorMessage}</section>
+    <section className="appointment__validation">{name ? null : errorMessage}</section>
 
     <InterviewerList interviewers={props.interviewers}
       interviewer={interviewer}
