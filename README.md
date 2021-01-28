@@ -28,7 +28,7 @@ npm run storybook
 ```sh
 npm run cypress
 ```
-!["screenshot "](https://user-images.githubusercontent.com/38138018/106085473-428dbc00-60ee-11eb-9367-f5b9696673dd.png)
+
 !["Screenshot"](https://user-images.githubusercontent.com/38138018/106085473-428dbc00-60ee-11eb-9367-f5b9696673dd.png)
 !["Screenshot"](https://user-images.githubusercontent.com/38138018/106085602-8254a380-60ee-11eb-9e14-22535bddddc7.png)
 !["Screenshot "](https://user-images.githubusercontent.com/38138018/106085610-87b1ee00-60ee-11eb-83ce-4e2b63e21e51.png)
