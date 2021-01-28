@@ -5,12 +5,13 @@ import axios from 'axios';
 export default function useApplicationData(props) {
 
   const [state, setState] = useState({
-    day: 'Monday',
+    day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
   })
   const setDay = (day) => setState((prev) => ({ ...prev, day }))
+  const setDays = (days) => setState((prev) => ({ ...prev, days }))
   //using a hook to get days, appointments and interviewers from the API
   useEffect(() => {
     Promise.all([
@@ -32,12 +33,19 @@ export default function useApplicationData(props) {
   }, [])
 
   function updateSpots(id, add) {
+    console.log('before', state.days)
     const days = state.days.map(day => {
-      const updatedDay = { ...day }
-      if (updatedDay.appointments.id)
-        add ? day.spots++ : day.spots--
-      return updatedDay
+      if (day.appointments.includes(id)) {
+        const delta = add ? 1 : -1;
+
+        const updatedDay = { ...day, spots: day.spots + delta }
+        return updatedDay
+      }
+      return day
     })
+
+    setDays(days)
+    console.log('after', days)
     return days;
   }
 
@@ -53,13 +61,14 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
-    console.log(id, interview);
     return axios
-      .put(`/api/appointments/${id}`, { "interview": interview, "days": updateSpots(id, 'TRUE') })
-      .then(setState({ ...state, appointments }))
+      .put(`/api/appointments/${id}`, { "interview": interview, "days": updateSpots(id, false) })
+      .then(() => setState((state) =>({ ...state, appointments })))
   }
   //updating the state appointment and appointments when an interview is cacelled
   function cancelInterview(id) {
+
+
     const appointment = {
       ...state.appointments[id], interview: null
     };
@@ -69,8 +78,8 @@ export default function useApplicationData(props) {
     }
 
     return axios
-      .delete(`/api/appointments/${id}`)
-      .then(setState({ ...state, appointments, "days": updateSpots(id, 'FALSE') }))
+      .delete(`/api/appointments/${id}`, { "days": updateSpots(id, true) })
+      .then(() => setState((state) => ({ ...state, appointments })))
   }
 
 

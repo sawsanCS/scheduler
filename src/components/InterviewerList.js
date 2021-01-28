@@ -7,10 +7,12 @@ import PropTypes from 'prop-types';
 export default function InterviewerList(props) {
   const interviewersContent = props.interviewers.map(interviewer => (
     <InterviewerListItem
+
       key={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      setInterviewer={props.setInterviewer}
+      selected={interviewer.id === props.interviewer}
+      setInterviewer={(event) => props.onChange(interviewer.id)}
     />
   ))
  

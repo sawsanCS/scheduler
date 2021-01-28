@@ -5,7 +5,7 @@ import Show from './Show';
 import Empty from './Empty';
 import Form from './Form';
 import Status from './Status';
-
+import Error from './Error'
 import Confirm from './Confirm';
 
 import useVisualMode from "hooks/useVisualMode";
@@ -104,7 +104,7 @@ export default function Appointment(props) {
       )}
       {mode === CONFIRM && (
         <Confirm
-          message="Delete the appointment"
+          message="Are you sure you would like to delete?"
           onConfirm={cancelAppointment}
           onCancel={onCancel}
         />
@@ -112,6 +112,8 @@ export default function Appointment(props) {
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
 
+       {mode === ERROR_DELETE && <Error message ="Failed to delete message" />}
+       {mode === ERROR_SAVE && <Error message ="Failed to save message" />}
 
     </article>
   )
