@@ -1,5 +1,6 @@
 # Interview Scheduler
-
+A React SPA that allows a user to book an appointment by typing his name and choosing his interviewer.
+A user can also edit an existing appointment or delete it.
 ## Setup
 
 Install dependencies with `npm install`.
@@ -20,4 +21,10 @@ npm test
 
 ```sh
 npm run storybook
+```
+
+## Running End-to-End tests with Cypress
+
+```sh
+npm run cypress
 ```
