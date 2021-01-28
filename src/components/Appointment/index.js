@@ -23,12 +23,12 @@ export default function Appointment(props) {
   const ERROR_SAVE = 'ERROR_SAVE'
   const ERROR_DELETE = 'ERROR_DELETE'
 
- 
+
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
   function onCancel() {
-    
+
     back();
 
   }
@@ -41,14 +41,14 @@ export default function Appointment(props) {
     }
 
   }, [transition, mode, props.interview])
-  
+
   //after creating a new appointment, save function will save it
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer
     };
-  
+
     transition(SAVING)
     //Make the request with the correct endpoint using the appointment id
     props.bookInterview(props.id, interview)
@@ -62,9 +62,9 @@ export default function Appointment(props) {
 
 
   function cancelAppointment() {
-   transition(DELETING);
+    transition(DELETING);
 
- props.cancelInterview(props.id)
+    props.cancelInterview(props.id)
       .then(response => {
         transition(EMPTY)
       })
@@ -77,9 +77,9 @@ export default function Appointment(props) {
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW  && 
+      {mode === SHOW &&
         <Show
-        id = {props.id}
+          id={props.id}
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onEdit={() => transition(EDIT)}
@@ -112,8 +112,8 @@ export default function Appointment(props) {
       {mode === SAVING && <Status message="Saving" />}
       {mode === DELETING && <Status message="Deleting" />}
 
-       {mode === ERROR_DELETE && <Error message ="Failed to delete message" />}
-       {mode === ERROR_SAVE && <Error message ="Failed to save message" />}
+      {mode === ERROR_DELETE && <Error message="Failed to delete message" />}
+      {mode === ERROR_SAVE && <Error message="Failed to save message" />}
 
     </article>
   )
