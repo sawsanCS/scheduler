@@ -33,7 +33,7 @@ export default function useApplicationData(props) {
   }, [])
 
   function updateSpots(id, add) {
-    console.log('before', state.days)
+
     const days = state.days.map(day => {
       if (day.appointments.includes(id)) {
         const delta = add ? 1 : -1;
@@ -45,7 +45,7 @@ export default function useApplicationData(props) {
     })
 
     setDays(days)
-    console.log('after', days)
+
     return days;
   }
 
@@ -63,7 +63,7 @@ export default function useApplicationData(props) {
 
     return axios
       .put(`/api/appointments/${id}`, { "interview": interview, "days": updateSpots(id, false) })
-      .then(() => setState((state) =>({ ...state, appointments })))
+      .then(() => setState((state) => ({ ...state, appointments })))
   }
   //updating the state appointment and appointments when an interview is cacelled
   function cancelInterview(id) {
